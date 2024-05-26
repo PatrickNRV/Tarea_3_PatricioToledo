@@ -38,21 +38,24 @@ void mostrarMenuPrincipal() {
 
 }
 
+//---------------------------------------------------------------------------------------------
+
 int esValido(int x, int y) {
     return (x >= 0 && x < 3 && y >= 0 && y < 3); 
 }
 
 //---------------------------------------------------------------------------------------------
 
-void imprimirEstado(const State *estado) {
+void imprimirEstado(const State *estado) 
+{
     for (int i = 0; i < 3; i++) 
     {
         for (int j = 0; j < 3; j++) 
         {
             if (estado->square[i][j] == 0)
-                    printf("x ");
+                printf("x ");
             else
-                    printf("%d ", estado->square[i][j]);
+                printf("%d ", estado->square[i][j]);
         }
         printf("\n");
     }
@@ -87,19 +90,18 @@ int esFinal(const State* estado)
 void copiarState(State original, State* new) 
 {
     for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++)
-                    new->square[i][j] = original.square[i][j];
+        for (int j = 0; j < 3; j++)
+            new->square[i][j] = original.square[i][j];
 
     new->x = original.x;
     new->y = original.y;
     new->nActions = original.nActions;
-
 }
 
 //---------------------------------------------------------------------------------------------
 
-void mover(State* current, int choice) {
-
+void mover(State* current, int choice) 
+{
     int x = current->x;
     int y = current->y;
     int temp;
@@ -155,14 +157,14 @@ void mover(State* current, int choice) {
 
 //---------------------------------------------------------------------------------------------
 
-State* transicion(State* oldState, int action) {
-    State *newState = (State*) malloc(sizeof(State));
+State* transicion(State* estado, int accion) {
+    State *nuevo = (State*) malloc(sizeof(State));
+    copiarState(*estado, nuevo);
+    
+    mover(nuevo, accion);
+    nuevo->nActions++;
 
-    copiarState(*oldState, newState);
-    mover(newState, action);
-    newState->nActions++;
-
-    return newState;
+    return nuevo;
 }
 
 //---------------------------------------------------------------------------------------------
@@ -227,7 +229,7 @@ void busqP(State initialState, int count) {
             while (node != NULL) 
             {
                 if (pasos == 0) 
-                        printf("Estado Inicial:\n\n");  
+                        printf("Estado Inicial:\n");  
 
                 else
                         printf("Paso %d:\n", pasos);                  
@@ -298,7 +300,7 @@ void busqA(State initialState, int count) {
             while (node != NULL) 
             {
                 if (pasos == 0) 
-                        printf("Estado inicial:\n\n");  
+                        printf("Estado inicial:\n");  
 
                 else
                         printf("Paso %d:\n", pasos);                  
@@ -423,6 +425,9 @@ void best_first(State initialState)
 //---------------------------------------------------------------------------------------------
 
 int main() {
+    int opcion;
+    int cont = 0;
+    
     State estado_inicial = 
     {
         {{0, 2, 8}, 
@@ -431,11 +436,7 @@ int main() {
          },  
         0, 0   // Posición del 0 
     };
-
     estado_inicial.nActions = 0;
-    
-    int opcion;
-    int cont = 0;
 
     do {
         mostrarMenuPrincipal();
