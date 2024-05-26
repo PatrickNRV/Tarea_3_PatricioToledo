@@ -77,6 +77,13 @@ List *split_string(const char *str, const char *delim) {
     // Obtener el siguiente token
     token = strtok(NULL, delim);
   }
+}
 
-  return result;
+  // Función para limpiar la pantalla
+  void limpiarPantalla() { system("clear"); }
+
+  void presioneTeclaParaContinuar() {
+    puts("Presione una tecla para continuar...");
+    getchar(); // Consume el '\n' del buffer de entrada
+    getchar(); // Espera a que el usuario presione una tecla
 }
